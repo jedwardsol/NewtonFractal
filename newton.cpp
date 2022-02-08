@@ -1,3 +1,4 @@
+#define NOMINMAX
 #include <Windows.h>
 #include <vector>
 #include <array>
@@ -97,6 +98,8 @@ Point df(Point const &p)
 // exact value is related to iteration count to converge
 
 
+int  maxCount;
+
 int findRoot(Point const &point)
 {
     Point       x{point};
@@ -111,6 +114,9 @@ int findRoot(Point const &point)
 
             if(distance < 0.1)
             {
+                maxCount = std::max(maxCount,count);    // 
+                                                        // 87 when distance check is 0.01
+
                 return (root * 80) + (count % 80);
             }
 
@@ -118,15 +124,16 @@ int findRoot(Point const &point)
         }
         catch(...)
         {
-            std::cout << "No root at " << point << "\n";    // {0.0,0.0}
+            std::cout << "X No root at " << point << "\n";    // {0.0,0.0}
 
             return 255;
         }
 
-
-
         count++;
-    } while(count < 100);
+
+    } while(count < 100);   // reasonable number for current
+
+    std::cout << "  No root at " << point << "\n";   
 
     return 255;
 }
